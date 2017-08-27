@@ -39,4 +39,5 @@ public class MongoConnection {
 		}
 		return db;
 	}
+
 }
