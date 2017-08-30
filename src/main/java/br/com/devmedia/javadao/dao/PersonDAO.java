@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
 
 import br.com.devmedia.javadao.converter.PersonConverter;
 import br.com.devmedia.javadao.entity.Person;
@@ -36,7 +36,7 @@ public class PersonDAO extends EntityDao<Person> {
 	}
 
 	public Person findPerson(Map<String, Object> mapKeyValue) {
-		DBObject dbObject = findOne(mapKeyValue);
+		Document dbObject = findOne(mapKeyValue);
 
 		Person person = new PersonConverter().converterToPerson(dbObject);
 
@@ -44,11 +44,11 @@ public class PersonDAO extends EntityDao<Person> {
 	}
 
 	public List<Person> findPersons() {
-		List<DBObject> dbObject = findAll();
+		List<Document> dbObject = findAll();
 
 		List<Person> persons = new ArrayList<Person>();
 
-		for (DBObject dbo : dbObject) {
+		for (Document dbo : dbObject) {
 			Person person = new PersonConverter().converterToPerson(dbo);
 
 			persons.add(person);
@@ -58,11 +58,11 @@ public class PersonDAO extends EntityDao<Person> {
 	}
 
 	public List<Person> findPersons(Map<String, Object> mapKeyValue) {
-		List<DBObject> dbObject = findKeyValue(mapKeyValue);
+		List<Document> dbObject = findKeyValue(mapKeyValue);
 
 		List<Person> persons = new ArrayList<Person>();
 
-		for (DBObject dbo : dbObject) {
+		for (Document dbo : dbObject) {
 			Person person = new PersonConverter().converterToPerson(dbo);
 
 			persons.add(person);

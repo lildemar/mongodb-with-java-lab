@@ -1,9 +1,9 @@
 package br.com.devmedia.javadao.dao;
 
-import com.mongodb.DBObject;
-
 import java.util.List;
 import java.util.Map;
+
+import org.bson.Document;
 
 public interface IDao {
 
@@ -13,10 +13,10 @@ public interface IDao {
 
 	void delete(Map<String, Object> mapEntity);
 
-	DBObject findOne(Map<String, Object> mapEntity);
+	Document findOne(Map<String, Object> mapEntity);
 
-	List<DBObject> findAll();
+	List<Document> findAll();
 
-	List<DBObject> findKeyValue(Map<String, Object> keyValue);
+	List<Document> findKeyValue(Map<String, Object> keyValue);
 
 }

@@ -3,6 +3,8 @@ package br.com.devmedia.javadao.converter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bson.Document;
+
 import br.com.devmedia.javadao.entity.Phone;
 
 public class PhoneConverter {
@@ -15,10 +17,10 @@ public class PhoneConverter {
 		return mapPhone;
 	}
 
-	public Phone converterToPhone(HashMap<String, Object> hashMap) {
+	public Phone converterToPhone(Document hashMap) {
 		Phone phone = new Phone();
-		phone.setPhoneNumber((String) hashMap.get("phoneNumber"));
-		phone.setMobileNumber((String) hashMap.get("mobileNumber"));
+		phone.setPhoneNumber(hashMap.getString("phoneNumber"));
+		phone.setMobileNumber(hashMap.getString("mobileNumber"));
 
 		return phone;
 	}

@@ -1,7 +1,7 @@
 package br.com.devmedia.javadao.dao;
 
-import com.mongodb.DB;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection {
 
@@ -12,8 +12,8 @@ public class MongoConnection {
 	private static MongoConnection uniqInstance;
 	private static int mongoInstance = 1;
 
-	private Mongo mongo;
-	private DB db;
+	private MongoClient mongoClient;
+	private MongoDatabase database;
 
 	private MongoConnection() {
 	}
@@ -22,22 +22,23 @@ public class MongoConnection {
 		if (uniqInstance == null) {
 			uniqInstance = new MongoConnection();
 		}
+
 		return uniqInstance;
 	}
 
-	@SuppressWarnings("deprecation")
-	public DB getDB() {
-		if (mongo == null) {
+	public MongoDatabase getDB() {
+		if (mongoClient == null) {
 			try {
-				mongo = new Mongo(HOST, PORT);
-				db = mongo.getDB(DB_NAME);
+				mongoClient = new MongoClient(HOST, PORT);
+				database = mongoClient.getDatabase(DB_NAME);
 
 				System.out.println("Mongo instance equals :> " + mongoInstance++);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return db;
+
+		return database;
 	}
 
 }

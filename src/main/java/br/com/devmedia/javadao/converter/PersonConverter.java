@@ -1,11 +1,12 @@
 package br.com.devmedia.javadao.converter;
 
-import com.mongodb.DBObject;
-
-import br.com.devmedia.javadao.entity.Person;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import br.com.devmedia.javadao.entity.Person;
 
 public class PersonConverter {
 
@@ -23,15 +24,18 @@ public class PersonConverter {
     }
 
 	@SuppressWarnings("unchecked")
-	public Person converterToPerson(DBObject dbo) {
+	public Person converterToPerson(Document dbo) {
 		Person person = new Person();
 
-		person.setId(dbo.get("_id").toString());
-		person.setFirstName((String) dbo.get("firstName"));
-		person.setLastName((String) dbo.get("lastName"));
-		person.setAge((Integer) dbo.get("age"));
+		ObjectId id = dbo.getObjectId("_id");
+		person.setId(id.toString());
+
+		person.setFirstName(dbo.getString("firstName"));
+		person.setLastName(dbo.getString("lastName"));
+		person.setAge(dbo.getInteger("age"));
+		
         person.setPhone(new PhoneConverter().converterToPhone(
-                (HashMap<String, Object>) dbo.get("phone"))
+                (Document) dbo.get("phone"))
         );
 
 		return person;

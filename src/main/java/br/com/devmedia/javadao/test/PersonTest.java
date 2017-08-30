@@ -12,8 +12,8 @@ public class PersonTest {
 
 	public static void main(String[] args) {
 		//save();
-		//update();
-		delete();
+		update();
+		//delete();
 	}
 
 	public static void save() {

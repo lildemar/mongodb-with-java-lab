@@ -4,60 +4,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.bson.Document;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+
 
 public class EntityDao<T> implements IDao {
-
-    private Class<T> persistentClass;    
-    private DBCollection dbCollection;
+    
+    private MongoCollection<Document> dbCollection;
 
     public EntityDao(Class<T> persistentClass) {
-        this.persistentClass = persistentClass;
-        this.dbCollection =
-                MongoConnection.getInstance()
-                    .getDB().getCollection(persistentClass.getSimpleName());
+        this.dbCollection = MongoConnection.getInstance()
+        		.getDB()
+        		.getCollection(persistentClass.getSimpleName());
     }
 
-    protected DBCollection getDbCollection() {
+    protected MongoCollection<Document> getDbCollection() {
         return dbCollection;
     }
 
     public void save(Map<String, Object> mapEntity) {
-        BasicDBObject document = new BasicDBObject(mapEntity);
+    	Document document = new Document(mapEntity);
 
-        dbCollection.save(document);
+        dbCollection.insertOne(document);
 
         System.out.println("Save :> " + document);
     }
 
     public void update(Map<String, Object> mapQuery,
                        Map<String, Object> mapEntity) {
-        BasicDBObject query = new BasicDBObject(mapQuery);
+    	Document query = new Document(mapQuery);
 
-        BasicDBObject entity = new BasicDBObject(mapEntity);
+    	Document entity = new Document(mapEntity);
 
-        dbCollection.update(query, entity);
+        dbCollection.updateOne(query, entity);
     }
 
     public void delete(Map<String, Object> mapEntity) {
-        BasicDBObject entity = new BasicDBObject(mapEntity);
+    	Document entity = new Document(mapEntity);
 
-        dbCollection.remove(entity);
+        dbCollection.deleteOne(entity);
     }
 
-    public DBObject findOne(Map<String, Object> mapEntity) {
-        BasicDBObject query = new BasicDBObject(mapEntity);
+    public Document findOne(Map<String, Object> mapEntity) {
+    	Document query = new Document(mapEntity);
 
-        return dbCollection.findOne(query);
+        return dbCollection.find(query).first();
     }
 
-    public List<DBObject> findAll() {
-        List<DBObject> list = new ArrayList<DBObject>();
+    public List<Document> findAll() {
+        List<Document> list = new ArrayList<Document>();
 
-        DBCursor cursor = dbCollection.find();
+        MongoCursor<Document> cursor = dbCollection.find().iterator();
 
         while (cursor.hasNext()) {
             list.add(cursor.next());
@@ -66,10 +65,10 @@ public class EntityDao<T> implements IDao {
         return list;
     }
 
-    public List<DBObject> findKeyValue(Map<String, Object> keyValue) {
-        List<DBObject> list = new ArrayList<DBObject>();
+    public List<Document> findKeyValue(Map<String, Object> keyValue) {
+        List<Document> list = new ArrayList<Document>();
 
-        DBCursor cursor = dbCollection.find(new BasicDBObject(keyValue));
+        MongoCursor<Document> cursor = dbCollection.find(new Document(keyValue)).iterator();
 
         while (cursor.hasNext()) {
             list.add(cursor.next());

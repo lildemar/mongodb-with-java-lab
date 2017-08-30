@@ -7,12 +7,10 @@
   <version>0.0.1-SNAPSHOT</version>
   
   <dependencies>
-  
-  	<!-- TODO: Atualizar essa dependencia para ultima versão!!!! -->
   	<dependency>
         <groupId>org.mongodb</groupId>
         <artifactId>mongodb-driver</artifactId>
-        <version>3.0.4</version>
+        <version>3.5.0</version>
     </dependency>
   </dependencies>
   
