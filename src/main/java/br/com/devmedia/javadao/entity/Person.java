@@ -1,34 +1,24 @@
 package br.com.devmedia.javadao.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "person")
 public class Person {
 	
+	@Id
 	private String id;
 	private String firstName;
 	private String lastName;
 	private int age;
-	private Phone phone;
 
-	public Person() {
-		super();
-	}
+	public Person() {}
 
-	public Person(String firstName, String lastName, int age, Phone phone) {
+	public Person(String firstName, String lastName, int age) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-		this.phone = phone;
 	}
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", phone=" + phone +
-                '}';
-    }
 
 	public String getId() {
 		return this.id;
@@ -61,13 +51,12 @@ public class Person {
 	public void setAge(int a) {
 		this.age = a;
 	}
-
-	public Phone getPhone() {
-		return this.phone;
-	}
-
-	public void setPhone(Phone p) {
-		this.phone = p;
-	}
+	
+	@Override
+    public String toString() {
+        return String.format(
+                "Customer[id=%s, firstName='%s', lastName='%s', age='%s']",
+                id, firstName, lastName, age);
+    }
 }
 
